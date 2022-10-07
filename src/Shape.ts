@@ -17,20 +17,24 @@ export abstract class Shape {
 
   private validateShape(): void {
     if (this.points.length <= 2) {
-      throw new ShapeException('Please provide at least 3 points');
+      throw new ShapeException('Please provide at least 3 points for a shape.');
     }
   }
 
   abstract getType(): string;
 
+  protected getEdges(): number[] {
+    return this.points.map((p, i) => {
+      if (i < this.points.length - 1) {
+        return p.distance(this.points[i + 1]);
+      } else {
+        return p.distance(this.points[0]);
+      }
+    });
+  }
+
   getPerimeter(): number {
-    let perimetr = 0;
-    const verticesCount = this.points.length;
-    for (let i = 0; i < verticesCount; i++) {
-      const nextPoint = i + 1 < verticesCount ? i + 1 : 0;
-      perimetr += this.points[i].distance(this.points[nextPoint]);
-    }
-    return perimetr;
+    return this.getEdges().reduce((s, edge) => (s += edge), 0);
   }
 
   toString(): string {

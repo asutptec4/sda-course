@@ -1,7 +1,7 @@
 import { Point } from './Point';
 import { Shape } from './Shape';
 
-const COMPARE_PRECESION = 3;
+const COMPARE_PRECISION = 3;
 
 export class Triangle extends Shape {
   constructor(x: Point, y: Point, z: Point);
@@ -33,20 +33,10 @@ export class Triangle extends Shape {
     }
   }
 
-  private getEdges(): number[] {
-    return this.points.map((p, i) => {
-      if (i < this.points.length - 1) {
-        return p.distance(this.points[i + 1]);
-      } else {
-        return p.distance(this.points[0]);
-      }
-    });
-  }
-
   private compareWithPrecision(x: number, y: number): boolean {
     return (
-      Math.abs(x).toPrecision(COMPARE_PRECESION) ===
-      Math.abs(y).toPrecision(COMPARE_PRECESION)
+      Math.abs(x).toPrecision(COMPARE_PRECISION) ===
+      Math.abs(y).toPrecision(COMPARE_PRECISION)
     );
   }
 
