@@ -22,15 +22,15 @@ export class Triangle extends Shape {
       this.compareWithPrecision(edges[1], edges[2])
     ) {
       return 'equilateral triangle';
-    } else if (
+    }
+    if (
       this.compareWithPrecision(edges[0], edges[1]) ||
       this.compareWithPrecision(edges[1], edges[2]) ||
       this.compareWithPrecision(edges[0], edges[2])
     ) {
       return 'isosceles triangle';
-    } else {
-      return 'scalene triangle';
     }
+    return 'scalene triangle';
   }
 
   private compareWithPrecision(x: number, y: number): boolean {

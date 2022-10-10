@@ -13,15 +13,13 @@ export class Point {
   distance(point: Point): number;
   distance(x: number, y: number): number;
   distance(x?: number | Point, y?: number): number {
-    let distance: number;
     if (x instanceof Point) {
-      distance = this.calculateDistance(x.x, x.y);
-    } else if (x !== undefined && y !== undefined) {
-      distance = this.calculateDistance(x, y);
-    } else {
-      distance = this.calculateDistance(0, 0);
+      return this.calculateDistance(x.x, x.y);
     }
-    return distance;
+    if (x !== undefined && y !== undefined) {
+      return this.calculateDistance(x, y);
+    }
+    return this.calculateDistance(0, 0);
   }
 
   private calculateDistance(x: number, y: number): number {

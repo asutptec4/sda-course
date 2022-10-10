@@ -9,14 +9,14 @@ export abstract class Shape {
   constructor(points: Point[]);
   constructor(points: Point[], color: string, filled: boolean);
   constructor(points: Point[], color?: string, filled?: boolean) {
+    this.validateEdges(points);
     this.color = color ?? 'green';
     this.filled = filled ?? true;
     this.points = points;
-    this.validateShape();
   }
 
-  private validateShape(): void {
-    if (this.points.length <= 2) {
+  private validateEdges(points: Point[]): void {
+    if (points.length <= 2) {
       throw new ShapeException('Please provide at least 3 points for a shape.');
     }
   }
@@ -27,9 +27,8 @@ export abstract class Shape {
     return this.points.map((p, i) => {
       if (i < this.points.length - 1) {
         return p.distance(this.points[i + 1]);
-      } else {
-        return p.distance(this.points[0]);
       }
+      return p.distance(this.points[0]);
     });
   }
 
