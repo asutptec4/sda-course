@@ -7,23 +7,24 @@ import FormLabel from '@mui/material/FormLabel';
 
 import styles from './Sort.module.scss';
 
-interface SortProps {
-  store?: {};
-  updateStore?: (val) => void;
-}
+// interface SortProps {
+//   store?: {};
+//   updateStore?: (val) => void;
+// }
 
 // OR
 
-//interface SortProps {
-//  selected?: {};
-//  updateSelected?: (val) => void;
-//}
+interface SortProps {
+  selected: string;
+  updateSelected: (value: string) => void;
+}
 
 // OR store can be global
 
 export const Sort: FC<SortProps> = props => {
   const handleChange = value => {
     console.log(value); // for debugging
+    props.updateSelected(value);
   };
 
   return (
@@ -33,6 +34,7 @@ export const Sort: FC<SortProps> = props => {
         className={styles.group}
         aria-label="sorting"
         name="radio-buttons-group"
+        value={props.selected}
         onChange={e => handleChange(e.target.value)}
       >
         <FormControlLabel value="desc" control={<Radio />} label="desc" />

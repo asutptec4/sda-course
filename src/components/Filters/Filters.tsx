@@ -3,17 +3,17 @@ import Checkbox from '@mui/material/Checkbox';
 
 import styles from './Filters.module.scss';
 
-interface FiltersProps {
-  store?: {};
-  updateStore?: (val) => void;
-}
+// interface FiltersProps {
+//   store?: {};
+//   updateStore?: (val) => void;
+// }
 
 // OR
 
-//interface FiltersProps {
-//  selected?: {};
-//  updateSelected?: (val) => void;
-//}
+interface FiltersProps {
+  selected: string[];
+  updateSelected: (value: string[]) => void;
+}
 
 // OR store can be global
 
@@ -27,7 +27,7 @@ const OPTIONS = [
 ];
 
 export const Filters: FC<FiltersProps> = props => {
-  const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
+  const selectedFilter = props.selected;
 
   const onChange = ({ title }) => {
     console.log(title); // for debugging
@@ -40,7 +40,7 @@ export const Filters: FC<FiltersProps> = props => {
       updatedFilters = [...selectedFilter, title];
     }
 
-    setSelectedFilter(updatedFilters);
+    props.updateSelected(updatedFilters);
   };
 
   return (
