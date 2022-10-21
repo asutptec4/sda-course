@@ -1,21 +1,12 @@
-import { useState, FC } from 'react';
+import { FC } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 
 import styles from './Filters.module.scss';
 
 interface FiltersProps {
-  store?: {};
-  updateStore?: (val) => void;
+  selected: string[];
+  updateSelected: (value: string[]) => void;
 }
-
-// OR
-
-//interface FiltersProps {
-//  selected?: {};
-//  updateSelected?: (val) => void;
-//}
-
-// OR store can be global
 
 const OPTIONS = [
   {
@@ -27,11 +18,9 @@ const OPTIONS = [
 ];
 
 export const Filters: FC<FiltersProps> = props => {
-  const [selectedFilter, setSelectedFilter] = useState<string[]>([]);
+  const selectedFilter = props.selected || [];
 
   const onChange = ({ title }) => {
-    console.log(title); // for debugging
-
     let updatedFilters;
 
     if (selectedFilter.find(filter => filter === title)) {
@@ -40,7 +29,7 @@ export const Filters: FC<FiltersProps> = props => {
       updatedFilters = [...selectedFilter, title];
     }
 
-    setSelectedFilter(updatedFilters);
+    props.updateSelected(updatedFilters);
   };
 
   return (
