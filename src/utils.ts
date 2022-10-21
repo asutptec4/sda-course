@@ -4,9 +4,8 @@ import { Row } from './components';
 const compareNumbers = (a: number) => (b: number) => a - b;
 const compareDate = (a: Date) => (b: Date) =>
   compareNumbers(a.getTime())(b.getTime());
-const toDate = (str: string) => new Date(str);
 const compareDateString = (a: string) => (b: string) =>
-  compareDate(toDate(a))(toDate(b));
+  compareDate(new Date(a))(new Date(b));
 const getMaxPayment = (acc: Account) =>
   [...acc.payments].sort((a, b) => compareDateString(a.date)(b.date)).pop()
     ?.totalSum ?? 0;
@@ -36,15 +35,11 @@ export const buildTableData = ([images, users, accounts]: [
 export const identity = <T>(x: T) => x;
 
 export function compose<T>(...fns: ((arg: T) => T)[]) {
-  return (arg: T) => {
-    return fns.reduceRight((acc, fn) => fn(acc), arg);
-  };
+  return (arg: T) => fns.reduceRight((acc, fn) => fn(acc), arg);
 }
 
 export function composePredicates<T>(...fns: ((arg: T) => boolean)[]) {
-  return (arg: T) => {
-    return fns.reduceRight((acc, fn) => fn(arg) || acc, false);
-  };
+  return (arg: T) => fns.reduceRight((acc, fn) => fn(arg) || acc, false);
 }
 
 export const filter = (predicate: (row: Row) => boolean) => (list: Row[]) =>
@@ -72,9 +67,7 @@ const comparePayments = (order: string) => (a: Row, b: Row) =>
   compareNumbers(getPaymentField(a))(getPaymentField(b));
 
 export const sortByPayments = (value: string) => (list: Row[]) => {
-  if (!value) {
-    return list;
-  }
+  if (!value) return list;
   return [...list].sort(comparePayments(value));
 };
 

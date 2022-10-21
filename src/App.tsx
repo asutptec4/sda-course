@@ -4,7 +4,6 @@ import { FC, useEffect, useState } from 'react';
 import { Account, Image, User } from '../types';
 import { Filters, Row, Search, Sort, Table } from './components';
 import { getAccounts, getImages, getUsers } from './mocks/api';
-import rows from './mocks/rows.json';
 import {
   buildTableData,
   compose,
@@ -18,9 +17,6 @@ import {
 
 import styles from './App.module.scss';
 
-// mockedData has to be replaced with parsed Promises’ data
-const mockedData: Row[] = rows.data;
-
 interface ViewSetting {
   filters: string[];
   search: string;
@@ -28,7 +24,7 @@ interface ViewSetting {
 }
 
 export const App: FC = () => {
-  const [data, setData] = useState<Row[]>(mockedData);
+  const [data, setData] = useState<Row[]>([]);
   const [viewSetting, setViewSetting] = useState<ViewSetting>({
     filters: [],
     search: '',
@@ -36,13 +32,12 @@ export const App: FC = () => {
   });
 
   useEffect(() => {
-    // fetching data from API
     Promise.all([getImages(), getUsers(), getAccounts()]).then(
       ([images, users, accounts]: [Image[], User[], Account[]]) => {
         setData(buildTableData([images, users, accounts]));
       }
     );
-  }, [viewSetting]);
+  }, []);
 
   const transformData = compose<Row[]>(
     sortByPayments(viewSetting.order),

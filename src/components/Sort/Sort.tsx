@@ -7,23 +7,13 @@ import FormLabel from '@mui/material/FormLabel';
 
 import styles from './Sort.module.scss';
 
-// interface SortProps {
-//   store?: {};
-//   updateStore?: (val) => void;
-// }
-
-// OR
-
 interface SortProps {
   selected: string;
   updateSelected: (value: string) => void;
 }
 
-// OR store can be global
-
 export const Sort: FC<SortProps> = props => {
   const handleChange = value => {
-    console.log(value); // for debugging
     props.updateSelected(value);
   };
 
