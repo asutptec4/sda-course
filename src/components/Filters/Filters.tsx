@@ -27,7 +27,7 @@ const OPTIONS = [
 ];
 
 export const Filters: FC<FiltersProps> = props => {
-  const selectedFilter = props.selected;
+  const selectedFilter = props.selected || [];
 
   const onChange = ({ title }) => {
     console.log(title); // for debugging

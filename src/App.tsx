@@ -8,8 +8,11 @@ import rows from './mocks/rows.json';
 import {
   buildTableData,
   compose,
-  filterByPost,
-  search,
+  composePredicates,
+  filter,
+  getPostFilter,
+  getSearchFilter,
+  identity,
   sortByPayments,
 } from './utils';
 
@@ -29,22 +32,29 @@ export const App: FC = () => {
   const [viewSetting, setViewSetting] = useState<ViewSetting>({
     filters: [],
     search: '',
-    order: 'desc',
+    order: null,
   });
 
   useEffect(() => {
     // fetching data from API
     Promise.all([getImages(), getUsers(), getAccounts()]).then(
       ([images, users, accounts]: [Image[], User[], Account[]]) => {
-        const transform = compose<Row[]>(
-          sortByPayments(viewSetting.order),
-          search(viewSetting.search),
-          filterByPost(viewSetting.filters)
-        );
-        setData(transform(buildTableData([images, users, accounts])));
+        setData(buildTableData([images, users, accounts]));
       }
     );
   }, [viewSetting]);
+
+  const transformData = compose<Row[]>(
+    sortByPayments(viewSetting.order),
+    viewSetting.search || viewSetting.filters?.length
+      ? filter(
+          composePredicates<Row>(
+            getSearchFilter(viewSetting.search),
+            getPostFilter(viewSetting.filters)
+          )
+        )
+      : identity
+  );
 
   return (
     <StyledEngineProvider injectFirst>
@@ -67,7 +77,7 @@ export const App: FC = () => {
             updateSelected={v => setViewSetting({ ...viewSetting, search: v })}
           />
         </div>
-        <Table rows={data} />
+        <Table rows={transformData(data)} />
       </div>
     </StyledEngineProvider>
   );
