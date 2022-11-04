@@ -1,3 +1,5 @@
+import { ShipperManager } from './shipper/shipper-manager';
+
 let id = 0;
 
 export class Shipment {
@@ -16,7 +18,8 @@ export class Shipment {
         `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
         `and shipped to ${this.toAddress} ${this.toZipCode}`
     );
-    return `${Shipment.SHIPMENT_COST * this.weight}`;
+    const shipper = ShipperManager.getShipper(this.getFromZipCode());
+    return `${shipper.getCost() * this.weight}`;
   }
 
   getId(): number {
