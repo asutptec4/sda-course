@@ -1,39 +1,34 @@
-import { Shipment } from './model/shipment';
+import { ShipmentService } from './model/shipment-service';
 
 export class Client {
-  private shipment: Shipment = new Shipment();
+  private shipmentService: ShipmentService = ShipmentService.getInstance();
 
   ship(): string {
-    return this.shipment.ship();
+    return this.shipmentService.ship();
   }
 
-  setWeight(weight: number): Client {
-    this.shipment.setWeight(weight);
+  prepareShipment(weight: number): Client {
+    this.shipmentService.prepareShipment(weight);
     return this;
   }
 
   setFromAddress(address: string): Client {
-    this.shipment.setFromAddress(address);
+    this.shipmentService.setFromAddress(address);
     return this;
   }
 
   setFromZipCode(zipCode: string): Client {
-    this.shipment.setFromZipCode(zipCode);
+    this.shipmentService.setFromZipCode(zipCode);
     return this;
   }
 
   setToAddress(address: string): Client {
-    this.shipment.setToAddress(address);
+    this.shipmentService.setToAddress(address);
     return this;
   }
 
   setToZipCode(zipCode: string): Client {
-    this.shipment.setToZipCode(zipCode);
-    return this;
-  }
-
-  prepareShipment(): Client {
-    this.shipment = new Shipment();
+    this.shipmentService.setToZipCode(zipCode);
     return this;
   }
 }

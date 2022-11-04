@@ -1,8 +1,8 @@
+import { Shipper } from '../shipper/shipper';
+
 let id = 0;
 
 export class Shipment {
-  public static readonly SHIPMENT_COST: number = 0.39;
-
   private shipmentID: number = id++;
   private weight: number = 0;
   private fromAddress: string = '';
@@ -10,13 +10,13 @@ export class Shipment {
   private toAddress: string = '';
   private toZipCode: string = '';
 
-  ship(): string {
+  ship(shipper: Shipper): string {
     console.log(
-      `Shipment with the ID ${this.shipmentID}  ` +
+      `Shipment with the ID ${this.shipmentID} ` +
         `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
         `and shipped to ${this.toAddress} ${this.toZipCode}`
     );
-    return `${Shipment.SHIPMENT_COST * this.weight}`;
+    return shipper.ship(this);
   }
 
   getId(): number {
