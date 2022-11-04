@@ -1,8 +1,16 @@
 import { Shipper } from './shipper';
 
 export class ChicagoSprintShipper extends Shipper {
-  getCost(): number {
-    return 0.42;
+  getLetterCost(weight: number): number {
+    return 0.42 * weight;
+  }
+
+  getPackageCost(weight: number): number {
+    return 0.2 * weight;
+  }
+
+  getOversizeCost(weight: number): number {
+    return 0.2 * weight;
   }
 
   getServesCodes(): string[] {

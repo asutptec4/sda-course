@@ -1,5 +1,9 @@
 export abstract class Shipper {
-  abstract getCost(): number;
+  abstract getLetterCost(weight: number): number;
+
+  abstract getPackageCost(weight: number): number;
+
+  abstract getOversizeCost(weight: number): number;
 
   abstract getServesCodes(): string[];
 

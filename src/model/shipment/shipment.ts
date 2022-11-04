@@ -1,25 +1,21 @@
-import { ShipperManager } from './shipper/shipper-manager';
+import { Shipper } from '../shipper/shipper';
+import { ShipperManager } from '../shipper/shipper-manager';
 
 let id = 0;
 
-export class Shipment {
-  public static readonly SHIPMENT_COST: number = 0.39;
-
+export abstract class Shipment {
   private shipmentID: number = id++;
   private weight: number = 0;
   private fromAddress: string = '';
   private fromZipCode: string = '';
   private toAddress: string = '';
   private toZipCode: string = '';
+  protected shipper: Shipper = ShipperManager.getDefaultShipper();
+
+  abstract getShipmentCost(): string;
 
   ship(): string {
-    console.log(
-      `Shipment with the ID ${this.shipmentID}  ` +
-        `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
-        `and shipped to ${this.toAddress} ${this.toZipCode}`
-    );
-    const shipper = ShipperManager.getShipper(this.getFromZipCode());
-    return `${shipper.getCost() * this.weight}`;
+    return this.toString() + '\nCost = ' + this.getShipmentCost();
   }
 
   getId(): number {
@@ -48,6 +44,7 @@ export class Shipment {
 
   setFromZipCode(zipCode: string): void {
     this.fromZipCode = zipCode;
+    this.shipper = ShipperManager.getShipper(zipCode);
   }
 
   getToAddress(): string {
@@ -64,5 +61,13 @@ export class Shipment {
 
   setToZipCode(zipCode: string): void {
     this.toZipCode = zipCode;
+  }
+
+  toString(): string {
+    return (
+      `Shipment with the ID ${this.shipmentID} ` +
+      `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
+      `and shipped to ${this.toAddress} ${this.toZipCode}`
+    );
   }
 }
