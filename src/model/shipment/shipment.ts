@@ -2,7 +2,7 @@ import { Shipper } from '../shipper/shipper';
 
 let id = 0;
 
-export class Shipment {
+export abstract class Shipment {
   private shipmentID: number = id++;
   private weight: number = 0;
   private fromAddress: string = '';
@@ -11,11 +11,6 @@ export class Shipment {
   private toZipCode: string = '';
 
   ship(shipper: Shipper): string {
-    console.log(
-      `Shipment with the ID ${this.shipmentID} ` +
-        `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
-        `and shipped to ${this.toAddress} ${this.toZipCode}`
-    );
     return shipper.ship(this);
   }
 
@@ -61,5 +56,13 @@ export class Shipment {
 
   setToZipCode(zipCode: string): void {
     this.toZipCode = zipCode;
+  }
+
+  toString(): string {
+    return (
+      `Shipment with the ID ${this.shipmentID} ` +
+      `will be picked up from ${this.fromAddress} ${this.fromZipCode} ` +
+      `and shipped to ${this.toAddress} ${this.toZipCode}`
+    );
   }
 }

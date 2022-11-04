@@ -1,7 +1,7 @@
 import { Shipment } from '../shipment/shipment';
 
 export abstract class Shipper {
-  abstract getCost(): number;
+  abstract getCost(shipment: Shipment): number;
 
   abstract getServesCodes(): string[];
 
@@ -10,6 +10,6 @@ export abstract class Shipper {
   }
 
   ship(shipment: Shipment): string {
-    return `${this.getCost() * shipment.getWeight()}`;
+    return shipment.toString() + `\nCost = ${this.getCost(shipment)}`;
   }
 }
