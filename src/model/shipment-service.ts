@@ -6,6 +6,8 @@ import { Shipper } from './shipper/shipper';
 import { Letter } from './shipment/letter';
 import { Package } from './shipment/package';
 import { Oversize } from './shipment/oversize';
+import { ShipmentMarker } from './shipment/shipment-marker';
+import { ShipmentDecorator } from './shipment/shipment-decorator';
 
 export class ShipmentService {
   private static instance: ShipmentService;
@@ -70,6 +72,13 @@ export class ShipmentService {
 
   setToZipCode(zipCode: string): ShipmentService {
     this.shipment.setToZipCode(zipCode);
+    return this;
+  }
+
+  setMarkers(markers: ShipmentMarker[]): ShipmentService {
+    const decorator = new ShipmentDecorator(this.shipment);
+    decorator.setMarkers(markers);
+    this.shipment = decorator;
     return this;
   }
 }

@@ -1,4 +1,5 @@
 import { ShipmentService } from './model/shipment-service';
+import { ShipmentMarker } from './model/shipment/shipment-marker';
 
 export class Client {
   private shipmentService: ShipmentService = ShipmentService.getInstance();
@@ -29,6 +30,11 @@ export class Client {
 
   setToZipCode(zipCode: string): Client {
     this.shipmentService.setToZipCode(zipCode);
+    return this;
+  }
+
+  setMarkers(markers: ShipmentMarker[]): Client {
+    this.shipmentService.setMarkers(markers);
     return this;
   }
 }
