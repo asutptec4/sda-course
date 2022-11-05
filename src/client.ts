@@ -2,6 +2,8 @@ import { Letter } from './model/shipment/letter';
 import { Oversize } from './model/shipment/oversize';
 import { Package } from './model/shipment/package';
 import { Shipment } from './model/shipment/shipment';
+import { ShipmentDecorator } from './model/shipment/shipment-decorator';
+import { ShipmentMarker } from './model/shipment/shipment-marker';
 
 export class Client {
   private shipment: Shipment = new Letter();
@@ -27,6 +29,13 @@ export class Client {
 
   setToZipCode(zipCode: string): Client {
     this.shipment.setToZipCode(zipCode);
+    return this;
+  }
+
+  setMarkers(markers: ShipmentMarker[]): Client {
+    const shipmentDecorator = new ShipmentDecorator(this.shipment);
+    shipmentDecorator.setMarkers(markers);
+    this.shipment = shipmentDecorator;
     return this;
   }
 
